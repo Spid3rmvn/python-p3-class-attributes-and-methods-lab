@@ -5,61 +5,49 @@ class Song:
     artists = []
     genre_count = {}
     artist_count = {}
-
+    
     def __init__(self, name, artist, genre):
         # Instance attributes
         self.name = name
         self.artist = artist
         self.genre = genre
-
-        # Update class attributes when a new song is created
+        
+        # Call class methods to update class attributes
         Song.add_song_to_count()
-        Song.genres.append(genre)
-        Song.artists.append(artist)
-        Song.add_to_genres()
-        Song.add_to_artists()
-        Song.add_to_genre_count()
-        Song.add_to_artist_count()
-
+        Song.add_to_genres(genre)
+        Song.add_to_artists(artist)
+        Song.add_to_genre_count(genre)
+        Song.add_to_artist_count(artist)
+    
     @classmethod
     def add_song_to_count(cls):
         """Increment the count of songs by 1"""
         cls.count += 1
-
+    
     @classmethod
-    def add_to_genres(cls):
-        """Ensure genres list only contains unique genres"""
-        # Create a new list with unique genres
-        unique_genres = []
-        for genre in cls.genres:
-            if genre not in unique_genres:
-                unique_genres.append(genre)
-        cls.genres = unique_genres
-
+    def add_to_genres(cls, genre):
+        """Add genre to genres list if it's not already there"""
+        if genre not in cls.genres:
+            cls.genres.append(genre)
+    
     @classmethod
-    def add_to_artists(cls):
-        """Ensure artists list only contains unique artists"""
-        # Create a new list with unique artists
-        unique_artists = []
-        for artist in cls.artists:
-            if artist not in unique_artists:
-                unique_artists.append(artist)
-        cls.artists = unique_artists
-
+    def add_to_artists(cls, artist):
+        """Add artist to artists list if it's not already there"""
+        if artist not in cls.artists:
+            cls.artists.append(artist)
+    
     @classmethod
-    def add_to_genre_count(cls):
+    def add_to_genre_count(cls, genre):
         """Update the genre_count histogram"""
-        cls.genre_count = {}
-        for genre in cls.genres:
-            # Count occurrences of each genre in the full genres list
-            count = cls.genres.count(genre)
-            cls.genre_count[genre] = count
-
+        if genre in cls.genre_count:
+            cls.genre_count[genre] += 1
+        else:
+            cls.genre_count[genre] = 1
+    
     @classmethod
-    def add_to_artist_count(cls):
+    def add_to_artist_count(cls, artist):
         """Update the artist_count histogram"""
-        cls.artist_count = {}
-        for artist in cls.artists:
-            # Count occurrences of each artist in the full artists list
-            count = cls.artists.count(artist)
-            cls.artist_count[artist] = count
+        if artist in cls.artist_count:
+            cls.artist_count[artist] += 1
+        else:
+            cls.artist_count[artist] = 1
